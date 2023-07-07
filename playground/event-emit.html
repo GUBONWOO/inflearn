@@ -6,31 +6,46 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
   </head>
-
   <body>
     <div id="app">
-      <app-header :propsdata="message"></app-header>
-      <app-content :propsdata="num"></app-content>
+      <app-header v-on:pass="logtext"></app-header>
+      <app-content v-on:add="plus"></app-content>
     </div>
+
     <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
     <script>
       var appHeader = {
-        template: '<h1>{{ propsdata }}</h1>',
-        props: ['propsdata'],
+        template: '<button v-on:click="passEvent">Click</button>',
+        methods: {
+          passEvent: function () {
+            this.$emit('pass');
+          },
+        },
       };
       var appContent = {
-        template: '<div>{{ propsdata }}</div>',
-        props: ['propsdata'],
+        template: '<button v-on:click="addNumber">add</button>',
+        methods: {
+          addNumber: function () {
+            this.$emit('add');
+          },
+        },
       };
-
       new Vue({
         el: '#app',
         components: {
           'app-header': appHeader,
           'app-content': appContent,
         },
+        methods: {
+          logtext: function () {
+            console.log('hi');
+          },
+          plus: function () {
+            this.num++;
+            console.log(this.num);
+          },
+        },
         data: {
-          message: 'hi',
           num: 10,
         },
       });
