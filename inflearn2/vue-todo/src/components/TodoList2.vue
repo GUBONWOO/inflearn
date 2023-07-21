@@ -1,7 +1,7 @@
 <template>
   <ul>
-    <li v-for="(todoItem, index) in todoItems" v-bind:key="todoItem">
-      {{ todoItem }}
+    <li v-for="(todoItem, index) in propsdata" v-bind:key="todoItem.item">
+      {{ todoItem.item }}
       <button v-on:click="removeTodo(todoItem, index)">삭제</button>
     </li>
   </ul>
@@ -9,26 +9,12 @@
 
 <script>
 export default {
-  data: function () {
-    return {
-      todoItems: [],
-    };
-  },
+  props: ['propsdata'],
+
   methods: {
     removeTodo: function (todoItem, index) {
-      // console.log(todoItem, index);
-      localStorage.removeItem(todoItem);
-      this.todoItems.splice(index, 1);
+      this.$emit('removeItem', todoItem, index);
     },
-  },
-  created: function () {
-    if (localStorage.length > 0) {
-      for (var i = 0; i < localStorage.length; i++) {
-        if (localStorage.key(i) !== 'loglevel:webpack-dev-server') {
-          this.todoItems.push(localStorage.key(i));
-        }
-      }
-    }
   },
 };
 </script>

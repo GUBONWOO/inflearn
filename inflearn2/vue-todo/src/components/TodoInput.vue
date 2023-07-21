@@ -14,8 +14,12 @@ export default {
   },
   methods: {
     addTodo: function () {
-      // console.log(this.newTodoItem);
-      localStorage.setItem(this.newTodoItem, this.newTodoItem);
+      if (this.newTodoItem !== '') {
+        this.$emit('addTodoItem', this.newTodoItem);
+        this.clearInput();
+      }
+    },
+    clearInput: function () {
       this.newTodoItem = '';
     },
   },
